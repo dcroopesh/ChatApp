@@ -1,0 +1,28 @@
+{% extends 'login/base.html' %}
+{% block content %}
+<form action="" method="post" id="login-form"><input type="hidden" name="csrfmiddlewaretoken" value="7eRwDDhlyQME3siMMHjYVZYRnRJVg5NfE9b3pNsFx6vIMFPDkYmiLFfDhPisR4z3">
+  {% csrf_token %}
+  <div class="form-row">
+    
+    <label class="required" for="id_username">Username:</label> <input type="text" name="username" autofocus required id="id_username">
+  </div>
+  
+  <div class="form-row">
+    
+    <label class="required" for="id_password">Password:</label> <input type="password" name="password" required id="id_password">
+    <input type="hidden" name="next" value="/admin/">
+  </div>
+  <div>
+  <div>
+  <a href = {% url 'reset_link' %} >forgot password</a>
+  </div>
+  
+  <div class="submit-row">
+    
+    <label>&nbsp;</label><input type="submit" value="login">
+  </div>
+</form>
+
+</div>
+
+{% endblock content%}
