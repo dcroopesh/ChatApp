@@ -37,6 +37,9 @@ BASE_URL = "http://localhost:8000/"
 # Application definition
 
 INSTALLED_APPS = [
+    'ChatApp',
+    'channels',
+    #'ChatApp.apps.ChatappConfig',
     'login.apps.LoginConfig',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -46,6 +49,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'urlshortening',
+    
 ]
 
 MIDDLEWARE = [
@@ -96,7 +100,19 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'project.wsgi.application'
+ASGI_APPLICATION = "project.routing.application"
 
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            "hosts": [('127.0.0.1', 6379)],
+        },
+    },
+}
+
+# REDIS_HOST = 'localhost'
+# REDIS_PORT = 6379
 
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
