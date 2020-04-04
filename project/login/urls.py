@@ -11,9 +11,8 @@ urlpatterns = [
     path('activate/<str:url>',Activate.as_view(),name = 'user_activate'),
     path('reset/password-link',ResetLinkView.as_view(),name = 'reset_link'),
     path('reset/password/<str:url>',ResetPasswordView.as_view(),name = 'reset_password'),
+    path('logout/', logout_view,name = 'user_logout'),
     
-
-    #path('linkshortening/', include('urlshortening.urls'))
 
 ]
 
