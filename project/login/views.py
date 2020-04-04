@@ -7,7 +7,7 @@ from .serializers import RegistrationSerializer,LoginSerializer,ResetSerializer
 from .models import Registration
 from rest_framework.response import Response
 from django.contrib.auth.models import User
-from django.contrib.auth import authenticate
+from django.contrib.auth import authenticate , login , logout 
 from django.core.mail import send_mail
 from django.conf import settings
 #from rest_framework. import IsAuthenticate
@@ -70,7 +70,9 @@ class LoginAPIview(APIView):
         # print(request.data)
         user = authenticate(username=username, password= password)
         if user != None:
+            login(request, user)
             return Response({user.username : "Successfully logged in"},status = 200)    
+            #return render(request, 'ChatApp/p2pindex.html',{'title' : 'Chat Room'})        
         else:
             return Response({"Invalid credentials !!"},status = 400) 
                     
@@ -84,6 +86,7 @@ class Activate(APIView):
             user.save()
         else:
             return Response({data['username'] : "User is already Activated"},status = 200)
+            #return redirect('')
         return Response({data['username'] : "Activated"},status = 200)
 
 class ResetLinkView(APIView):
@@ -129,3 +132,8 @@ class ResetPasswordView(APIView):
             return Response({'password' : "Updated"},status = 200)
         else:       
             return Response(valid_data.errors,status = 400)
+
+
+def logout_view(request):
+    logout(request)
+    return HttpResponse('<h3>logged out</h3>')
