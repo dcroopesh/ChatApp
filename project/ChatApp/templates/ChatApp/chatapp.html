@@ -1,0 +1,57 @@
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChatApp</title>
+    <link rel="stylesheet" href="{% static 'ChatApp/css/style.css' %}">
+    {%  block script %}
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script type="text/javascript" src="{% static 'ChatApp/js/Script.js' %}"></script>
+    {% endblock script %}
+</head>
+<body>
+    <p id="get-sender" style="display: none;">{{ sender }}</p>
+    <div class="flex">
+        <div class="flex1">
+            <!-- <h2>Users</h2> -->
+                {% for each_user in users %}
+                    <div class="user">
+                        <img src="{% static 'ChatApp/images/BlankImage.jpg' %}" alt=""/>
+                        <a class="user-list abc" href= "" id={{each_user}}>{{each_user}}</a>
+                        <br>
+                    </div>
+                {% endfor%}
+                <a href="{% url 'user_logout' %}" id="btn">SignOut</a>
+        </div>
+        
+        
+        <div class="flex2">
+            
+            <div id="receiver-name">
+                <div id="receiver-box"> 
+                    <h3 id="receiver"></h3>
+                </div>
+                <div class="room" >
+                    <!-- <p class="p1"></p> -->
+                </div>
+                
+            </div>
+            
+            <div class="shadow">
+                <h2 id="text" style="color: black;">Start Conversation...</h2>
+            </div>
+            
+            
+            <div id="chat-inputt">
+                
+                <input class="chat-input" id="message-text" type="text" size="30" />
+                <input id="submit" class="button"  type="button" value="Send"/>
+                
+            </div>
+        </div>
+    </div>
+
+    </div>
+</body>
+</html>
