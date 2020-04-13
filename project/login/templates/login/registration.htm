@@ -1,0 +1,44 @@
+{% extends 'login/base.html'%}
+{% block content %}
+        <form action="" method="POST">
+            
+            
+            <h1>{{ title }}</h1>
+
+            <div class="form-field">
+                
+                    <input id="username" class="input-field" type="text" placeholder="User Name" name="username" required >
+                  
+            </div>
+            
+            <div class="form-field">
+                
+                    <input id="email" class="input-field" type="email" placeholder="email" name="email" required>
+            
+                
+            </div>
+            
+            <div class="form-field">
+                
+                    <input id="password1" class="input-field" type="password" placeholder="New Password" name="password1" required>
+                
+            </div>
+
+            <div class="form-field">
+                
+                    <input id="password2" class="input-field" type="password" placeholder="Confirm Password" name="password2"  required>
+            
+                </div>
+            <div class="form-field flex">
+                <div class="flex1">
+                    <a class="link" href="{% url 'user_login' %} ">Already have Account</a>
+                </div>
+                <div class="flex2 ">                
+                    <button  id="register-btn" class="input-field btn" type="submit">Submit</button>
+                </div>
+
+            </div>
+
+        </form>
+    
+{% endblock %}
