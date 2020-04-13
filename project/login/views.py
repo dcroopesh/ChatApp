@@ -29,30 +29,32 @@ class RegistrationApiView(APIView):
     serializer_class = RegistrationSerializer
 
     def get(self,request):
-        return render(request,'login/register.html',{'title' : "Register"})
+        return render(request,'login/registration.htm',{'title' : "Registration"})
 
     def post(self, request):
         
-        username = request.data['username']
-        email = request.data['email']
-        password = request.data['password1']
-        password2 = request.data['password2']
-        #url = "http://localhost:8000/activate/"
+        username = request.POST.get('username')
+        email = request.POST.get('email')
+        password = request.POST.get('password1')
+        password2 = request.POST.get('password2')
+       
         valid_data = RegistrationSerializer(data = {'username':username,'email':email,'password':password,'password2':password2})
         
-        if valid_data.is_valid():
-            # print(valid_data['email'])
-            add_user = User.objects.create_user(username=username, email=email, password=password,is_active=False)
-            add_user.save()
-            data = {'username': username ,'password' : password}
-            token = generate_token(data)
-            short_url = get_short_url(token)
-            url = BASE_URL + "activate/" + short_url.short_id
-            send_mail('Account activation',url,EMAIL_HOST_USER,[email],fail_silently=False)
-        else:
-            return Response(valid_data.errors,status = 400)
+        if User.objects.filter(email=email).exists():
+            return Response("Email is already Registered !!!",status=400)
         
-        return redirect('user_login')
+        if User.objects.filter(username = username).exists():
+            return Response("UserName is already Registered !!!",status=400)
+           
+        add_user = User.objects.create_user(username=username, email=email, password=password,is_active=False)
+        add_user.save()
+        data = {'username': username ,'password' : password}
+        token = generate_token(data)
+        short_url = get_short_url(token)
+        url = BASE_URL + "activate/" + short_url.short_id
+        send_mail('Account activation',url,EMAIL_HOST_USER,[email],fail_silently=False)
+        
+        return Response("registered",status = 200)
 
 class LoginAPIview(APIView):
     permission_classes = []
@@ -61,13 +63,11 @@ class LoginAPIview(APIView):
 
 
     def get(self, request):
-        # print(request.data)
         return render(request, 'login/login.html',{'title' : "Login"})
 
     def post(self, request):
-        username = request.data['username']
-        password = request.data['password']
-        # print(request.data)
+        username = request.POST.get('username')
+        password = request.POST.get('password')
         user = authenticate(username=username, password= password)
         if user != None:
             login(request, user)
@@ -92,19 +92,26 @@ class Activate(APIView):
 class ResetLinkView(APIView):
     
     def get(self,request):
-        return render(request,'login/link.html')
+        return render(request,'login/reset_link.html',{"title" : "Forgot Password"})
 
     def post(self,request):
-        email = request.data['email']
+        email = request.POST.get('email')
+        
         url = "http://localhost:8000/reset/password/"
-        user = User.objects.get(email = email)
+        try:
+            user = User.objects.get(email = email)
+        except:
+            return Response("Not a Valid email",status=400)
+        
+
         data = {'username': user.username ,'email' : email }
         token = generate_token(data)
         short_url = get_short_url(token)
         url += short_url.short_id
-        send_mail('Reset passowrd link',url,EMAIL_HOST_USER,[email],fail_silently=False)
+        send_mail('Reset passowrd link',url,EMAIL_HOST_USER,[email],fail_silently=True)
         
-        return Response({email : "Check your email "},status = 200)
+        return Response("Check your email ",status = 200)
+        
 
 class ResetPasswordView(APIView):
     
@@ -120,20 +127,16 @@ class ResetPasswordView(APIView):
     
     def post(self,request,url):
         
-        email = request.data['email']
-        password = request.data['password1']
-        password2 = request.data['password2']
+        email = request.POST.get('email')
+        password = request.POST.get('password1')
+        password2 = request.POST.get('password2')
         user = User.objects.get(email = email)
         valid_data = ResetSerializer(data = {'password':password , 'password2':password2})
        
-        if valid_data.is_valid():
-            user.set_password(password)
-            user.save()
-            return Response({'password' : "Updated"},status = 200)
-        else:       
-            return Response(valid_data.errors,status = 400)
-
-
+        user.set_password(password)
+        user.save()
+        return Response("password Updated",status = 200)
+        
 def logout_view(request):
     logout(request)
     return HttpResponse('<h3>logged out</h3>')
