@@ -141,8 +141,6 @@ class P2P(AsyncWebsocketConsumer):
     async def chat_message(self, event):
         message = event['message']
         sender = event['username']
-        if sender == str(self.user):
-            sender="you"
         await self.send(text_data=json.dumps({
             "username": sender,
             "message": message
@@ -154,8 +152,6 @@ class P2P(AsyncWebsocketConsumer):
         
         for message in messages:
             sender = str(message[0])
-            if sender == str(self.user):
-                sender="you"
             await self.send(text_data=json.dumps({
                     "username": sender,
                     "message": message[1]
