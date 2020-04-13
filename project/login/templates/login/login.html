@@ -1,28 +1,27 @@
-{% extends 'login/base.html' %}
+{% extends 'login/base.html'%}
 {% block content %}
-<form action="" method="post" id="login-form"><input type="hidden" name="csrfmiddlewaretoken" value="7eRwDDhlyQME3siMMHjYVZYRnRJVg5NfE9b3pNsFx6vIMFPDkYmiLFfDhPisR4z3">
-  {% csrf_token %}
-  <div class="form-row">
-    
-    <label class="required" for="id_username">Username:</label> <input type="text" name="username" autofocus required id="id_username">
-  </div>
-  
-  <div class="form-row">
-    
-    <label class="required" for="id_password">Password:</label> <input type="password" name="password" required id="id_password">
-    <input type="hidden" name="next" value="/admin/">
-  </div>
-  <div>
-  <div>
-  <a href = {% url 'reset_link' %} >forgot password</a>
-  </div>
-  
-  <div class="submit-row">
-    
-    <label>&nbsp;</label><input type="submit" value="login">
-  </div>
-</form>
+   
+       <form >
+           {% csrf_token %}
+            <h1>{{ title }}</h1>
 
-</div>
+            <div class="form-field">
+                <input id="username" class="input-field" type="text" placeholder="User Name" name="username" >
+            </div>
+            
+            <div class="form-field">
+                <input id="password" class="input-field" type="password" placeholder="Password" name="password" >
+            </div>
 
-{% endblock content%}
+            <div class="form-field flex">
+                <div class="flex1">
+                    <a class="link" href="{% url 'user_register' %}">Don't have Account?</a>
+                    <a class="link" href="{% url 'reset_link' %}">Forgot Password</a>
+                </div>
+                <div class="flex2 ">                
+                    <button  id="login-btn" class="input-field btn" type="submit">Submit</button>
+                </div>
+            </div>
+        </form> 
+{% endblock %}
+
