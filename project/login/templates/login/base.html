@@ -1,44 +1,20 @@
 {% load static %}
-<html lang="en-us" >
+<!DOCTYPE html>
+<html>
 <head>
-<title> {{ title }} </title>
-
-<link rel="stylesheet" type="text/css" href="{% static 'admin/css/base.css' %}">
-<link rel="stylesheet" type="text/css" href="/static/admin/css/login.css">
-    <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1.0, maximum-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="/static/admin/css/responsive.css">
-    <meta name="robots" content="NONE,NOARCHIVE">
-
-<meta name="robots" content="NONE,NOARCHIVE">
-</head>
-
-<body class=" login" data-admin-utc-offset="19800">
-
-<!-- Container -->
-<div id="container">
+    <title>{{ title }}</title>
+    <link rel="stylesheet" href="{% static 'login/css/style.css' %}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="{% static 'login/js/script.js' %}"></script>
     
-    <!-- Header -->
-    <div id="header">
-        <div id="branding">
+</head>
+<body>
+    <div class = "container">
+        {% block content %}
         
-            <h1 id="site-name">{{ title }}</a></h1>
+        {% endblock content %}
 
-        </div>
-        
-    </div>
-    <div id="content" class="colM">
-
-        <div id="content-main">
-            {% block content%}
-            {% endblock content %}
-
-            <br class="clear">
-        </div>
-    <!-- END Content -->
-
-    <div id="footer"></div>
-</div>
-<!-- END Container -->
-
+    </div> 
 </body>
 </html>
