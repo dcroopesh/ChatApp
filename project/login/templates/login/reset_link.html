@@ -1,0 +1,17 @@
+{% extends 'login/base.html'%}
+{% block content %}
+<h1>{{ title }}</h1>
+<form >
+    {% csrf_token %}
+    <div class="form-field ">
+        <input id="email" class="input-field margin" type="email" placeholder="Email" name="email" > 
+        <input type="hidden" name="_csrf" value="<%= csrfToken %>" id="csrf">   
+    </div>
+
+    <div class="form-field flex">
+        <div class="flex2 ">                
+            <button  id="link-btn" class="input-field btn" type="submit">Submit</button>
+        </div>
+    </div>
+</form>
+{% endblock %}
