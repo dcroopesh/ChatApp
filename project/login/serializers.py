@@ -13,30 +13,30 @@ class RegistrationSerializer(serializers.ModelSerializer):
         model = Registration
         fields = ['username','email','password','password2']
 
-    def validate(self,data):
+    # def validate(self,data):
        
-        username_pattern = re.compile('^[a-zA-Z]+[0-9]*[a-zA-Z]*$')
-        password_pattern = re.compile('^[a-zA-Z0-9@$#%]*[@$#%]+[a-zA-Z0-9@$#%]*$')
+    #     username_pattern = re.compile('^[a-zA-Z]+[0-9]*[a-zA-Z]*$')
+    #     password_pattern = re.compile('^[a-zA-Z0-9@$#%]*[@$#%]+[a-zA-Z0-9@$#%]*$')
         
-        if data['username'] == "" or data['email'] == "" or data['password'] == "" or data['password2'] == "":
-            raise serializers.ValidationError("Some fields are missing !!!")
-        
-        elif username_pattern.match(data['username']) is None:
-            raise serializers.ValidationError({'Username':'UserName should begin with character ,Not interger !!!'})
+    #     if data['username'] == "" or data['email'] == "" or data['password'] == "" or data['password2'] == "":
+    #         raise serializers.ValidationError("Some fields are missing !!!")
+            
+    #     elif username_pattern.match(data['username']) is None:
+    #         raise serializers.ValidationError('UserName should begin with character ,Not interger !!!')
        
-        elif data['password'] != data['password2']:
-            raise serializers.ValidationError('Both passwords are not matched !!!')
+    #     elif data['password'] != data['password2']:
+    #         raise serializers.ValidationError('Both passwords are not matched !!!')
 
-        elif password_pattern.match(data['password']) is None or len(data['password']) < 8: 
-            raise serializers.ValidationError('password should have atleast one digit and one special character and length should be minimum 8')
+    #     elif password_pattern.match(data['password']) is None or len(data['password']) < 8: 
+    #         raise serializers.ValidationError('password should have atleast one digit and one special character and length should be minimum 8')
  
-        elif User.objects.filter(email=data['email']).exists():
-            raise serializers.ValidationError("Email is already Registered !!!")
+    #     elif User.objects.filter(email=data['email']).exists():
+    #         raise serializers.ValidationError("Email is already Registered !!!")
         
-        elif User.objects.filter(username = data['username']).exists():
-            raise serializers.ValidationError("UserName is already Registered !!!")
+    #     elif User.objects.filter(username = data['username']).exists():
+    #         raise serializers.ValidationError("UserName is already Registered !!!")
         
-        return data
+    #     return data
 
         
 class LoginSerializer(serializers.ModelSerializer):
@@ -51,14 +51,14 @@ class ResetSerializer(serializers.ModelSerializer):
         model = Registration
         fields = ['password','password2']
 
-    def validate(self,data):
+    # def validate(self,data):
 
-        password_pattern = re.compile('^[a-zA-Z0-9@$#%]*[@$#%]+[a-zA-Z0-9@$#%]*$')
+    #     password_pattern = re.compile('^[a-zA-Z0-9@$#%]*[@$#%]+[a-zA-Z0-9@$#%]*$')
 
-        if data['password'] != data['password2']:
-            raise serializers.ValidationError('Both passwords are not matched !!!')
+    #     if data['password'] != data['password2']:
+    #         raise serializers.ValidationError('Both passwords are not matched !!!')
 
-        elif password_pattern.match(data['password']) is None or len(data['password']) < 8 :
-            raise serializers.ValidationError('password should have atleast one digit and one special character and length should be minimum 8')
+    #     elif password_pattern.match(data['password']) is None or len(data['password']) < 8 :
+    #         raise serializers.ValidationError('password should have atleast one digit and one special character and length should be minimum 8')
 
-        return data
+    #     return data
